@@ -10,21 +10,5 @@
 						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="br.com.cannoni.service1.service"/>
-
-	<bean id="hqlServer" class="org.hsqldb.server.Server"
-		init-method="start" destroy-method="stop">
-		<property name="properties">
-			<bean class="org.hsqldb.persist.HsqlProperties">
-				<constructor-arg>
-					<props>
-						<prop key="server.database.0">file:./db/service1</prop>
-						<prop key="server.dbname.0">service1</prop>
-						<prop key="server.no_system_exit">true</prop>
-						<prop key="server.port">9001</prop>
-					</props>
-				</constructor-arg>
-			</bean>
-		</property>
-	</bean>
+	<context:component-scan base-package="br.com.cannoni.service1"/>
 </beans>
