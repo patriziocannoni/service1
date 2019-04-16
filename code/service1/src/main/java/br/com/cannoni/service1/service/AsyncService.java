@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import br.com.cannoni.service1.aspects.LogExecutionTime;
+
 /**
  * @author patrizio
  * @since 11/04/2019
@@ -18,6 +20,7 @@ public class AsyncService {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Async
+    @LogExecutionTime
     public Future<Boolean> doSomething() {
         LOGGER.info("Doing something async ... " + Thread.currentThread().getName());
         try {
