@@ -37,14 +37,13 @@ public class SpringAppCfg {
         
         cfg.setGridLogger(new Log4J2Logger("log4j2-ignite.xml"));
 
-        // Defining and creating a new cache to be used by Ignite Spring Data
-        // repository.
-        CacheConfiguration ccfg = new CacheConfiguration("StringCache");
+        // Defining and creating a new cache to be used by Ignite Spring Data repository.
+        CacheConfiguration<Long, String> cacheCfg = new CacheConfiguration<Long, String>("StringCache");
 
         // Setting SQL schema for the cache.
-        ccfg.setIndexedTypes(Long.class, String.class);
+        cacheCfg.setIndexedTypes(Long.class, String.class);
 
-        cfg.setCacheConfiguration(ccfg);
+        cfg.setCacheConfiguration(cacheCfg);
 
         return Ignition.start(cfg);
     }
