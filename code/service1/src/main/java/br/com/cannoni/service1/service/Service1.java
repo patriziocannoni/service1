@@ -1,6 +1,15 @@
 package br.com.cannoni.service1.service;
 
+import org.apache.ignite.Ignition;
+import org.apache.ignite.client.ClientCache;
+import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.configuration.ClientConfiguration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.cannoni.service1.aspects.LogExecutionTime;
 
 /**
  * @author patrizio
@@ -10,4 +19,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class Service1 {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+    
+    @Autowired
+    private ClientConfiguration clientConfiguration;
+    
+    @LogExecutionTime
+    public int count(String cacheName) {
+        int size = 0;
+        
+        try (IgniteClient ic = Ignition.startClient(clientConfiguration);) {
+            ClientCache<Long, String> stringCache = ic.cache(cacheName);
+            size = stringCache.size();
+            LOGGER.info(size);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        
+        return size;
+    }
+    
 }

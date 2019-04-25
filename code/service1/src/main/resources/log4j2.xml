@@ -14,7 +14,7 @@
             <DefaultRolloverStrategy max="15"/>
         </RollingFile>
         
-        <RollingFile name="RollingExecutionTimeFile" fileName="logs/executionTime.log" filePattern="logs/tistan-api-%d{yyyy-MM-dd}.log" immediateFlush="true" append="true">
+        <RollingFile name="RollingExecutionTimeFile" fileName="logs/executionTime.log" filePattern="logs/executionTime-%d{yyyy-MM-dd}.log" immediateFlush="true" append="true">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %c{1}:%L %-5level- %msg%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>

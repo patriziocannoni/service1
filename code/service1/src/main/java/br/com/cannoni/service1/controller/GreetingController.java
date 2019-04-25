@@ -1,6 +1,5 @@
 package br.com.cannoni.service1.controller;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -11,32 +10,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.cannoni.service1.SpringAppCfg;
 import br.com.cannoni.service1.model.Greeting;
 import br.com.cannoni.service1.service.AsyncService;
+import br.com.cannoni.service1.service.Service1;
 
 @RestController
 public class GreetingController {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final String template = "Hello, %s!";
-
     private final AtomicLong counter = new AtomicLong();
+    
+    @Autowired
+    private Service1 service1;
 
     @Autowired
     private AsyncService asyncService;
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+    @RequestMapping("/write")
+    public Greeting write() {
+        Long iterations = 0L;
+        
         LOGGER.info("Invoking method async ... " + Thread.currentThread().getName());
-        Future<Boolean> future = asyncService.doSomething();
+        
         try {
-            future.get();
-        } catch (InterruptedException | ExecutionException e) {
+            Future<Long> future = asyncService.writeAndInsertStrings();
+            iterations = future.get();
+            
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
-        LOGGER.info("Call executed. " + Thread.currentThread().getName());
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+        
+        LOGGER.info("Iterations: " + iterations + " - Call executed. " + Thread.currentThread().getName());
+        
+        return new Greeting(counter.incrementAndGet(), "");
+    }
+    
+    @RequestMapping("/map-size")
+    public Integer getMapSize(@RequestParam(value = "mapName", defaultValue = SpringAppCfg.STRING_CACHE, required = true) String mapName) {
+        return service1.count(mapName);
     }
 
 }

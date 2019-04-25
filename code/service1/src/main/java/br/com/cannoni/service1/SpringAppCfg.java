@@ -5,7 +5,6 @@ import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
-import org.apache.ignite.logger.log4j2.Log4J2Logger;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +17,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableIgniteRepositories
 public class SpringAppCfg {
+    
+    public static final String STRING_CACHE = "StringCache";
 
     /**
      * Creating Apache Ignite instance bean. A bean will be passed to
@@ -34,11 +35,9 @@ public class SpringAppCfg {
 
         // Enabling peer-class loading feature.
         cfg.setPeerClassLoadingEnabled(true);
-        
-        cfg.setGridLogger(new Log4J2Logger("log4j2-ignite.xml"));
 
         // Defining and creating a new cache to be used by Ignite Spring Data repository.
-        CacheConfiguration<Long, String> cacheCfg = new CacheConfiguration<Long, String>("StringCache");
+        CacheConfiguration<Long, String> cacheCfg = new CacheConfiguration<Long, String>(STRING_CACHE);
 
         // Setting SQL schema for the cache.
         cacheCfg.setIndexedTypes(Long.class, String.class);
