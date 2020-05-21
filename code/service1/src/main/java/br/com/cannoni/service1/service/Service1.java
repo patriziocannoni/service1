@@ -22,13 +22,13 @@ public class Service1 {
     private static final Logger LOGGER = LogManager.getLogger();
     
     @Autowired
-    private ClientConfiguration clientConfiguration;
+    private ClientConfiguration igniteClientConfiguration;
     
     @LogExecutionTime
-    public int count(String cacheName) {
+    public int count(final String cacheName) {
         int size = 0;
         
-        try (IgniteClient ic = Ignition.startClient(clientConfiguration);) {
+        try (IgniteClient ic = Ignition.startClient(igniteClientConfiguration)) {
             ClientCache<Long, String> stringCache = ic.cache(cacheName);
             size = stringCache.size();
             LOGGER.info(size);

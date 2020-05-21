@@ -48,7 +48,8 @@ public class AsyncService {
             Path p = Paths.get("AsyncServiceOutput.txt");
             
             try (BufferedWriter bw = Files.newBufferedWriter(p);
-                    IgniteClient ic = Ignition.startClient(igniteClientConfiguration);) {
+                    IgniteClient ic = Ignition.startClient(igniteClientConfiguration)) {
+                
                 Random random = new Random();
                 String val = "";
                 for (int i = 0; i < iterations; i++) {

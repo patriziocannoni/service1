@@ -19,7 +19,7 @@ public class LogExecutionTimeAspect {
     private static final Logger LOGGER = LogManager.getLogger("RollingExecutionTimeLogger");
     
     @Around("@annotation(LogExecutionTime)")
-    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logExecutionTime(final ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
