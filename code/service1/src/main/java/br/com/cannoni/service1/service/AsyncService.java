@@ -6,9 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.ignite.Ignition;
 import org.apache.ignite.client.ClientCache;
@@ -36,6 +36,8 @@ public class AsyncService {
     
     @Autowired
     private ClientConfiguration igniteClientConfiguration;
+    
+    private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
     @Async
     @LogExecutionTime
@@ -50,7 +52,6 @@ public class AsyncService {
             try (BufferedWriter bw = Files.newBufferedWriter(p);
                     IgniteClient ic = Ignition.startClient(igniteClientConfiguration)) {
                 
-                Random random = new Random();
                 String val = "";
                 for (int i = 0; i < iterations; i++) {
                     val = i + " " + String.valueOf(System.currentTimeMillis() + generateNewRandomLong().toString() + " go ...");

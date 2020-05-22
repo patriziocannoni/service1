@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +30,7 @@ public class Service1Controller {
     @Autowired
     private AsyncService asyncService;
 
-    @RequestMapping("/write")
+    @RequestMapping(value = "/write", method = RequestMethod.POST)
     public Greeting write() {
         Long iterations = 0L;
         
@@ -48,7 +49,7 @@ public class Service1Controller {
         return new Greeting(counter.incrementAndGet(), "");
     }
     
-    @RequestMapping("/map-size")
+    @RequestMapping(value = "/map-size", method = RequestMethod.GET)
     public Integer getMapSize(@RequestParam(value = "mapName", defaultValue = SpringAppCfg.STRING_CACHE, required = true) final String mapName) {
         return service1.count(mapName);
     }
