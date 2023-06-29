@@ -21,7 +21,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	    <spring.boot.version>2.7.13</spring.boot.version>
-		<ignite.version>2.14.0</ignite.version>
+		<ignite.version>2.15.0</ignite.version>
         <ignite-autoconfigure.version>1.0.0</ignite-autoconfigure.version>
         <ignite-spring-data.version>2.0.0</ignite-spring-data.version>
         <!--
