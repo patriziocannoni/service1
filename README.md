@@ -2,7 +2,7 @@
 Spring Boot service1
 
 # Apache Ignite com Open JDK 17
-
+```
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
@@ -33,3 +33,4 @@ Spring Boot service1
         }
     ]
 }
+```
