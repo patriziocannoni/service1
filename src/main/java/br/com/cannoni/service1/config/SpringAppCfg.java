@@ -1,40 +1,29 @@
-package br.com.cannoni.service1;
+package br.com.cannoni.service1.config;
 
 import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.configuration.ClientConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author patrizio
- * @since 17/04/2019
- * 
- */
 @Configuration
 @EnableIgniteRepositories
 public class SpringAppCfg {
     
     public static final String STRING_CACHE = "StringCache";
 
-    /**
-     * Creating Apache Ignite instance bean. A bean will be passed to
-     * IgniteRepositoryFactoryBean to initialize all Ignite based Spring Data *
-     * repositories and connect to a cluster.
-     * @throws IgniteCheckedException 
-     */
     @Bean
-    public Ignite igniteInstance() throws IgniteCheckedException {
+    public Ignite igniteInstance() {
         IgniteConfiguration cfg = new IgniteConfiguration();
 
         // Setting some custom name for the node.
-        cfg.setIgniteInstanceName("service1DataNode");
+        cfg.setIgniteInstanceName("service1-ignite");
 
         // Enabling peer-class loading feature.
-        cfg.setPeerClassLoadingEnabled(true);
+        // cfg.setPeerClassLoadingEnabled(true);
 
         // Defining and creating a new cache to be used by Ignite Spring Data repository.
         CacheConfiguration<Long, String> cacheCfg = new CacheConfiguration<Long, String>(STRING_CACHE);
@@ -45,6 +34,13 @@ public class SpringAppCfg {
         cfg.setCacheConfiguration(cacheCfg);
 
         return Ignition.start(cfg);
+    }
+
+    @Bean
+    public ClientConfiguration igniteClientConfiguration() {
+        ClientConfiguration clientConfiguration = new ClientConfiguration();
+        clientConfiguration.setAddresses("127.0.0.1:10800");
+        return clientConfiguration;
     }
 
 }

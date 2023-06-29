@@ -14,25 +14,18 @@ import org.apache.ignite.Ignition;
 import org.apache.ignite.client.ClientCache;
 import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.configuration.ClientConfiguration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import br.com.cannoni.service1.SpringAppCfg;
 import br.com.cannoni.service1.aspects.LogExecutionTime;
+import br.com.cannoni.service1.config.SpringAppCfg;
 import br.com.cannoni.service1.exceptions.WriteFileException;
+import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author patrizio
- * @since 11/04/2019
- * 
- */
+@Slf4j
 @Service
 public class AsyncService {
-
-    private static final Logger LOGGER = LogManager.getLogger();
     
     @Autowired
     private ClientConfiguration igniteClientConfiguration;
@@ -44,7 +37,7 @@ public class AsyncService {
     public Future<Long> writeAndInsertStrings() {
         long iterations = 100000;
         
-        LOGGER.info("Write file async ... " + Thread.currentThread().getName());
+        log.info("Write file async ... " + Thread.currentThread().getName());
         
         try {
             Path p = Paths.get("AsyncServiceOutput.txt");
@@ -65,10 +58,10 @@ public class AsyncService {
         } catch (IOException e) {
             throw new WriteFileException(e);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
         
-        LOGGER.info("Done");
+        log.info("Done");
         
         CompletableFuture<Long> cf = new CompletableFuture<>();
         cf.complete(iterations);

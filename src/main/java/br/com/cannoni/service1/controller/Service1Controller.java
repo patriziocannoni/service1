@@ -3,24 +3,22 @@ package br.com.cannoni.service1.controller;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.cannoni.service1.SpringAppCfg;
+import br.com.cannoni.service1.config.SpringAppCfg;
 import br.com.cannoni.service1.model.Greeting;
 import br.com.cannoni.service1.service.AsyncService;
 import br.com.cannoni.service1.service.Service1;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("service1")
 public class Service1Controller {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private final AtomicLong counter = new AtomicLong();
     
@@ -34,17 +32,17 @@ public class Service1Controller {
     public Greeting write() {
         Long iterations = 0L;
         
-        LOGGER.info("Invoking method async ... " + Thread.currentThread().getName());
+        log.info("Invoking method async ... " + Thread.currentThread().getName());
         
         try {
             Future<Long> future = asyncService.writeAndInsertStrings();
             iterations = future.get();
             
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
         
-        LOGGER.info("Iterations: " + iterations + " - Call executed. " + Thread.currentThread().getName());
+        log.info("Iterations: " + iterations + " - Call executed. " + Thread.currentThread().getName());
         
         return new Greeting(counter.incrementAndGet(), "");
     }

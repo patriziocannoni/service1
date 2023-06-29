@@ -14,14 +14,6 @@
             </Policies>
             <DefaultRolloverStrategy max="15"/>
         </RollingFile>
-        
-        <RollingFile name="RollingExecutionTimeFile" fileName="logs/executionTime.log" filePattern="logs/executionTime-%d{yyyy-MM-dd}.log" immediateFlush="true" append="true">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %c{1}:%L %-5level- %msg%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
-            </Policies>
-            <DefaultRolloverStrategy max="15"/>
-        </RollingFile>
     </Appenders>
     
     <Loggers>
@@ -29,9 +21,5 @@
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Root>
-        
-        <Logger name="RollingExecutionTimeLogger" level="debug" additivity="false">
-            <AppenderRef ref="RollingExecutionTimeFile"/>
-        </Logger>
     </Loggers>
 </Configuration>
